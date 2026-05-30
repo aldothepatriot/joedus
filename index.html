@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Joedus Trading Enterprise – Beautiful Home. Better Life.</title>
+<link rel="icon" type="image/png" href="img/logo.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --warm-white: #faf8f4;
+    --taupe: #c9b99a;
+    --brown: #6b4f3a;
+    --dark-brown: #3a2a1e;
+    --gold: #b8962e;
+    --gold-light: #d4af5a;
+    --text: #2c1f14;
+    --text-light: #7a6555;
+    --section-alt: #f0ebe0;
+    --border: rgba(180,150,100,0.2);
+    --shadow: 0 8px 40px rgba(60,30,10,0.10);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--warm-white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── IMAGE PLACEHOLDERS (shown while images are missing) ─── */
+  .product-img img, .features-image img, .hero-decor img {
+    background: var(--section-alt);
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--taupe); border-radius: 3px; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 72px;
+    background: rgba(250,248,244,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 30px rgba(60,30,10,0.10); }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px; text-decoration: none;
+  }
+  .nav-logo-img {
+    width: 44px; height: 44px;
+    object-fit: contain; border-radius: 6px;
+  }
+  .nav-logo-text {
+    display: flex; flex-direction: column; line-height: 1.1;
+  }
+  .nav-logo-text span:first-child {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; font-weight: 600; color: var(--dark-brown); letter-spacing: .5px;
+  }
+  .nav-logo-text span:last-child {
+    font-size: 10px; font-weight: 300; color: var(--text-light); letter-spacing: 2.5px; text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex; gap: 36px; list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none; font-size: 13px; font-weight: 500;
+    color: var(--text-light); letter-spacing: 1.5px; text-transform: uppercase;
+    transition: color .2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px;
+    background: var(--gold); transition: width .3s;
+  }
+  .nav-links a:hover { color: var(--dark-brown); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    padding: 10px 24px; background: var(--dark-brown); color: var(--gold-light) !important;
+    border-radius: 4px; font-size: 12px !important; letter-spacing: 2px !important;
+    transition: background .2s !important;
+  }
+  .nav-cta:hover { background: var(--brown) !important; }
+  .nav-cta::after { display: none !important; }
+
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px; background: var(--dark-brown); transition: .3s;
+  }
+  .mobile-menu {
+    display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
+    background: var(--warm-white); z-index: 998; flex-direction: column;
+    align-items: center; justify-content: center; gap: 36px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-size: 22px; font-family: 'Cormorant Garamond', serif; color: var(--dark-brown);
+    text-decoration: none; letter-spacing: 1px;
+  }
+
+  /* ─── HERO ─── */
+  #home {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding-top: 72px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 70% 50%, rgba(201,185,154,0.18) 0%, transparent 70%),
+      linear-gradient(135deg, #f5f0e8 0%, #faf8f4 60%, #ede5d4 100%);
+  }
+  .hero-decor {
+    position: absolute; right: 0; top: 0; bottom: 0;
+    width: 52vw; max-width: 800px;
+    border-radius: 32px 0 0 32px;
+    overflow: hidden; box-shadow: -20px 0 80px rgba(60,30,10,0.12);
+  }
+  .hero-decor img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 520px; padding: 0 48px;
+    animation: fadeUp .9s ease both;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 16px; background: rgba(184,150,46,0.12);
+    border: 1px solid rgba(184,150,46,0.3);
+    border-radius: 100px; margin-bottom: 28px;
+    font-size: 11px; font-weight: 500; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--gold);
+  }
+  .hero-badge i { font-size: 10px; }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 5vw, 68px);
+    line-height: 1.05; font-weight: 300;
+    color: var(--dark-brown); margin-bottom: 20px;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    font-size: 15px; line-height: 1.8; color: var(--text-light);
+    max-width: 400px; margin-bottom: 40px; font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 15px 36px; background: var(--dark-brown); color: var(--gold-light);
+    border: none; border-radius: 4px; font-family: 'Jost', sans-serif;
+    font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+    transition: background .2s, transform .2s;
+  }
+  .btn-primary:hover { background: var(--brown); transform: translateY(-2px); }
+  .btn-outline {
+    padding: 15px 36px; background: transparent;
+    color: var(--dark-brown); border: 1.5px solid var(--dark-brown);
+    border-radius: 4px; font-family: 'Jost', sans-serif;
+    font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+    transition: all .2s;
+  }
+  .btn-outline:hover { background: var(--dark-brown); color: var(--gold-light); }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 56px;
+  }
+  .stat { display: flex; flex-direction: column; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 600;
+    color: var(--dark-brown); line-height: 1;
+  }
+  .stat-label { font-size: 11px; letter-spacing: 1.5px; color: var(--text-light); text-transform: uppercase; margin-top: 4px; }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 100px 48px; }
+  .section-label {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4vw, 52px); font-weight: 300; line-height: 1.1;
+    color: var(--dark-brown); margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; }
+  .section-sub {
+    font-size: 15px; color: var(--text-light); line-height: 1.8; font-weight: 300; max-width: 540px;
+  }
+  .section-header { margin-bottom: 60px; }
+  .section-header.centered { text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+  /* ─── MARQUEE ─── */
+  .marquee-strip {
+    background: var(--dark-brown); color: var(--gold-light);
+    padding: 18px 0; overflow: hidden; white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-flex; animation: marquee 22s linear infinite;
+  }
+  .marquee-item {
+    display: inline-flex; align-items: center; gap: 18px;
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase; padding: 0 40px;
+  }
+  .marquee-item i { color: var(--gold); font-size: 10px; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ─── PRODUCTS ─── */
+  #products { background: var(--warm-white); }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 28px;
+  }
+  .product-card {
+    background: #fff; border-radius: 12px;
+    overflow: hidden; box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform .3s, box-shadow .3s;
+    position: relative;
+  }
+  .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(60,30,10,0.14); }
+  .product-img {
+    aspect-ratio: 4/3; overflow: hidden; position: relative;
+    cursor: zoom-in;
+  }
+  .product-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .5s;
+  }
+  .product-card:hover .product-img img { transform: scale(1.06); }
+  .product-img::after {
+    content: '\f00e';
+    font-family: 'Font Awesome 6 Free'; font-weight: 900;
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; color: rgba(255,255,255,0.95);
+    background: rgba(58,42,30,0.38);
+    opacity: 0; transition: opacity .3s;
+    pointer-events: none;
+  }
+  .product-img:hover::after { opacity: 1; }
+  .product-tag {
+    position: absolute; top: 14px; left: 14px;
+    background: var(--dark-brown); color: var(--gold-light);
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 100px;
+  }
+  .product-body { padding: 20px 22px 24px; }
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px; font-weight: 600; color: var(--dark-brown); margin-bottom: 6px;
+  }
+  .product-desc {
+    font-size: 13px; color: var(--text-light); line-height: 1.7; font-weight: 300;
+  }
+  .product-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);
+  }
+  .product-enquire {
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    transition: gap .2s;
+  }
+  .product-enquire:hover { gap: 10px; }
+  .product-stars { display: flex; gap: 2px; color: var(--gold); font-size: 11px; }
+
+  /* ─── FEATURES ─── */
+  #features { background: var(--section-alt); }
+  .features-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .features-image {
+    border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
+    position: relative;
+  }
+  .features-image img { width: 100%; display: block; aspect-ratio: 3/4; object-fit: cover; }
+  .features-badge-float {
+    position: absolute; bottom: 28px; right: -20px;
+    background: var(--dark-brown); color: var(--gold-light);
+    padding: 18px 24px; border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(60,30,10,0.25);
+    text-align: center;
+  }
+  .features-badge-float .num {
+    font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; display: block;
+  }
+  .features-badge-float .lbl {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: .75;
+  }
+  .features-list { display: flex; flex-direction: column; gap: 28px; margin-top: 40px; }
+  .feature-item { display: flex; gap: 20px; align-items: flex-start; }
+  .feature-icon {
+    width: 52px; height: 52px; flex-shrink: 0;
+    background: rgba(184,150,46,0.1); border: 1px solid rgba(184,150,46,0.25);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; color: var(--gold);
+  }
+  .feature-text h4 {
+    font-family: 'Cormorant Garamond', serif; font-size: 20px;
+    color: var(--dark-brown); margin-bottom: 4px;
+  }
+  .feature-text p { font-size: 13px; color: var(--text-light); line-height: 1.7; font-weight: 300; }
+
+  /* ─── WHY US ─── */
+  #why { background: var(--dark-brown); }
+  #why .section-label { color: var(--gold-light); opacity: .6; }
+  #why .section-title { color: #fff; }
+  #why .section-sub { color: rgba(255,255,255,0.5); }
+  .why-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+    margin-top: 60px; border-radius: 16px; overflow: hidden;
+  }
+  .why-card {
+    background: rgba(255,255,255,0.04);
+    padding: 44px 32px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: background .3s;
+  }
+  .why-card:hover { background: rgba(255,255,255,0.08); }
+  .why-card i {
+    font-size: 30px; color: var(--gold-light); margin-bottom: 20px; display: block;
+  }
+  .why-card h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 20px;
+    color: #fff; margin-bottom: 10px;
+  }
+  .why-card p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.7; font-weight: 300; }
+
+  /* ─── TESTIMONIALS ─── */
+  #testimonials { background: var(--cream); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .testi-card {
+    background: #fff; border-radius: 12px; padding: 32px;
+    box-shadow: var(--shadow); position: relative;
+  }
+  .testi-card::before {
+    content: '\201C'; font-family: 'Cormorant Garamond', serif;
+    font-size: 80px; line-height: .5; color: var(--taupe); opacity: .3;
+    position: absolute; top: 20px; left: 24px;
+  }
+  .testi-stars { display: flex; gap: 3px; color: var(--gold); font-size: 12px; margin-bottom: 16px; }
+  .testi-text { font-size: 14px; color: var(--text-light); line-height: 1.8; font-style: italic; margin-bottom: 24px; font-weight: 300; }
+  .testi-author { display: flex; align-items: center; gap: 14px; }
+  .testi-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--section-alt); display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--dark-brown); font-weight: 600;
+  }
+  .testi-name { font-size: 14px; font-weight: 600; color: var(--dark-brown); }
+  .testi-loc { font-size: 11px; color: var(--text-light); letter-spacing: .5px; }
+
+  /* ─── CONTACT ─── */
+  #contact { background: var(--warm-white); }
+  .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .contact-info { display: flex; flex-direction: column; gap: 32px; margin-top: 40px; }
+  .contact-item { display: flex; gap: 18px; align-items: flex-start; }
+  .contact-icon {
+    width: 48px; height: 48px; flex-shrink: 0;
+    background: var(--cream); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: var(--dark-brown);
+  }
+  .contact-item h4 { font-size: 13px; font-weight: 600; color: var(--dark-brown); margin-bottom: 4px; letter-spacing: .5px; }
+  .contact-item p { font-size: 13px; color: var(--text-light); font-weight: 300; line-height: 1.7; }
+  .map-directions-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: 10px; padding: 8px 18px;
+    background: var(--dark-brown); color: var(--gold-light);
+    border-radius: 6px; font-size: 12px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+    transition: background .2s;
+  }
+  .map-directions-btn:hover { background: var(--brown); }
+  /* ─── MAP EMBED ─── */
+  .map-section {
+    padding: 0; line-height: 0;
+  }
+  .map-section iframe {
+    width: 100%; height: 420px; border: 0; display: block;
+    filter: grayscale(15%) contrast(1.02);
+  }
+  .contact-socials { display: flex; gap: 12px; margin-top: 16px; }
+  .social-btn {
+    width: 40px; height: 40px; border-radius: 8px;
+    border: 1px solid var(--border); background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-light); font-size: 15px;
+    text-decoration: none; transition: all .2s;
+  }
+  .social-btn:hover { background: var(--dark-brown); color: var(--gold-light); border-color: var(--dark-brown); }
+
+  /* Contact Form */
+  .contact-form { background: var(--cream); border-radius: 16px; padding: 44px; }
+  .contact-form h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 28px;
+    color: var(--dark-brown); margin-bottom: 28px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .form-group label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); font-weight: 500; }
+  .form-group input, .form-group textarea, .form-group select {
+    padding: 13px 16px; background: #fff; border: 1.5px solid transparent;
+    border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 14px;
+    color: var(--text); outline: none;
+    transition: border-color .2s;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--gold);
+  }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .form-submit {
+    width: 100%; padding: 16px; background: var(--dark-brown); color: var(--gold-light);
+    border: none; border-radius: 8px; font-family: 'Jost', sans-serif;
+    font-size: 12px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase;
+    cursor: pointer; transition: background .2s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .form-submit:hover { background: var(--brown); }
+  .form-success {
+    display: none; text-align: center; padding: 24px;
+    color: var(--dark-brown); font-family: 'Cormorant Garamond', serif; font-size: 22px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark-brown); color: rgba(255,255,255,0.7);
+    padding: 64px 48px 32px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-brand .logo {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px;
+    color: var(--gold-light); margin-bottom: 14px; display: block;
+  }
+  .footer-logo-img {
+    height: 52px; object-fit: contain; margin-bottom: 14px; display: block;
+  }
+  .footer-brand p { font-size: 13px; line-height: 1.8; font-weight: 300; max-width: 280px; }
+  .footer-col h4 {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 20px; font-weight: 500;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a {
+    color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px;
+    font-weight: 300; transition: color .2s;
+  }
+  .footer-col ul li a:hover { color: var(--gold-light); }
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 28px; font-size: 12px; color: rgba(255,255,255,0.3);
+  }
+  .footer-bottom-tagline {
+    font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ─── FLOATING CTA ─── */
+  .float-wa {
+    position: fixed; bottom: 28px; right: 28px; z-index: 900;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; box-shadow: 0 6px 28px rgba(37,211,102,0.4);
+    text-decoration: none; transition: transform .2s;
+  }
+  .float-wa:hover { transform: scale(1.1); }
+
+  /* ─── BACK TO TOP ─── */
+  .back-top {
+    position: fixed; bottom: 28px; left: 28px; z-index: 900;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--dark-brown); color: var(--gold-light);
+    display: none; align-items: center; justify-content: center;
+    font-size: 16px; cursor: pointer; border: none;
+    box-shadow: var(--shadow); transition: transform .2s;
+  }
+  .back-top.show { display: flex; }
+  .back-top:hover { transform: translateY(-3px); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── LIGHTBOX ─── */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(20,10,5,0.92);
+    align-items: center; justify-content: center;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox-inner {
+    position: relative; max-width: 92vw; max-height: 90vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lightbox-inner img {
+    max-width: 90vw; max-height: 86vh;
+    object-fit: contain; border-radius: 10px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+    cursor: default;
+    animation: lbFade .22s ease;
+  }
+  .lightbox-close {
+    position: absolute; top: -44px; right: -4px;
+    background: none; border: none; color: #fff;
+    font-size: 44px; line-height: 1; cursor: pointer;
+    opacity: .75; transition: opacity .2s; padding: 0;
+  }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-caption {
+    position: absolute; bottom: -36px; left: 0; right: 0;
+    text-align: center; color: rgba(255,255,255,.55);
+    font-size: 13px; letter-spacing: 1px;
+  }
+  @keyframes lbFade {
+    from { opacity: 0; transform: scale(0.93); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .features-inner { grid-template-columns: 1fr; }
+    .features-badge-float { right: 20px; }
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+    .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .contact-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 70px 24px; }
+    .hero-content { padding: 0 24px; }
+    .hero-decor { display: none; }
+    .hero-stats { gap: 24px; }
+    .products-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-form { padding: 28px 20px; }
+  }
+  @media (max-width: 480px) {
+    .products-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <!-- LOGO: img/logo.png ✓ already uploaded -->
+    <img src="img/logo.png" class="nav-logo-img" alt="Joedus Trading Enterprise logo"/>
+    <div class="nav-logo-text">
+      <span>Joedus Trading</span>
+      <span>Enterprise</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#features">Quality</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" id="burger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" class="mob-link">Home</a>
+  <a href="#products" class="mob-link">Products</a>
+  <a href="#features" class="mob-link">Quality</a>
+  <a href="#testimonials" class="mob-link">Reviews</a>
+  <a href="#contact" class="mob-link">Contact Us</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fas fa-circle"></i> Premium Home Decor</div>
+    <h1 class="hero-title">Style Your <em>Home,</em><br>Comfort Your Life</h1>
+    <p class="hero-sub">Premium quality home décor for every corner of your home — from luxurious curtains to cosy bedsheets, crafted with care.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">Shop Products <i class="fas fa-arrow-right"></i></a>
+      <a href="#contact" class="btn-outline">Get a Quote</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Products</span></div>
+      <div class="stat"><span class="stat-num">2k+</span><span class="stat-label">Happy Clients</span></div>
+      <div class="stat"><span class="stat-num">5★</span><span class="stat-label">Rated</span></div>
+    </div>
+  </div>
+  <div class="hero-decor">
+    <!-- IMAGE: Upload a large room / interior showcase photo as img/hero-room.jpg
+         Recommended size: 900×675px landscape. This is the big panel on the right of the homepage. -->
+    <img src="img/hero-room.png" alt="Elegant living room with beautiful curtains" loading="lazy"/>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item"><i class="fas fa-star"></i> Fine Fabric</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Skin Friendly</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Easy Care</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Beautiful Colors</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Durable & Long Lasting</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Premium Quality</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Stylish Designs</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Perfect for Every Home</span>
+    <!-- duplicate -->
+    <span class="marquee-item"><i class="fas fa-star"></i> Fine Fabric</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Skin Friendly</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Easy Care</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Beautiful Colors</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Durable & Long Lasting</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Premium Quality</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Stylish Designs</span>
+    <span class="marquee-item"><i class="fas fa-star"></i> Perfect for Every Home</span>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-header reveal">
+    <div class="section-label">Our Collection</div>
+    <h2 class="section-title">Premium Home <em>Décor</em></h2>
+    <p class="section-sub">Everything you need to transform your living space into a haven of style and comfort.</p>
+  </div>
+
+  <div class="products-grid">
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: img/curtains.png ✓ already uploaded -->
+        <img src="img/curtains.png" alt="Curtains" loading="lazy"/>
+        <span class="product-tag">Bestseller</span>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Curtains</div>
+        <p class="product-desc">Elegant drapery in rich fabrics — blackout, sheer, eyelet & pencil pleat styles for every window.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: img/window-blinds.png ✓ already uploaded -->
+        <img src="img/window-blinds.png" alt="Blinds" loading="lazy"/>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Blinds</div>
+        <p class="product-desc">Venetian, roller & zebra blinds offering precise light control with a sleek modern finish.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: Upload a curtain rod / rail photo as img/curtain-bars.jpg -->
+        <img src="img/curtain-bars.png" alt="Adjustable Curtain Bars" loading="lazy"/>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Curtain Bars</div>
+        <p class="product-desc">Adjustable curtain rods in chrome, matte black & brushed gold — strong, stylish & easy to install.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★☆</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: Upload a tieback / tassel photo as img/tiebacks.jpg -->
+        <img src="img/tiebacks.png" alt="Tiebacks and Tiehooks" loading="lazy"/>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Tiebacks & Tiehooks</div>
+        <p class="product-desc">Decorative rope tiebacks, tassels & magnetic hooks to hold your curtains beautifully in place.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: Upload a curtain hooks photo as img/curtain-hooks.jpg -->
+        <img src="img/curtain-hooks.png" alt="Curtain Hooks" loading="lazy"/>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Curtain Hooks</div>
+        <p class="product-desc">Durable stainless-steel & plastic curtain hooks compatible with all standard curtain tracks and rails.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★☆</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: Upload a sofa cover photo as img/sofa-covers.png -->
+        <img src="img/sofa-covers.png" alt="Sofa Cover" loading="lazy"/>
+        <span class="product-tag">Popular</span>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Sofa Covers</div>
+        <p class="product-desc">Stretch-fit sofa covers in quilted & plain fabrics that protect and transform your sofa instantly.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: Upload a bedsheets photo as img/bedsheets.png -->
+        <img src="img/bedsheets.png" alt="Bedsheets" loading="lazy"/>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Bedsheets</div>
+        <p class="product-desc">Fitted & flat bedsheets in cotton-rich blends — soft, breathable & available in dozens of patterns.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: Upload a duvet set photo as img/duvet-sets.png -->
+        <img src="img/duvet-sets.png" alt="Duvet Sets" loading="lazy"/>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Duvet Sets</div>
+        <p class="product-desc">Luxurious duvet cover sets with matching pillowcases — from cosy winter weights to cool summer options.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: Upload a fluffy mat photo as img/fluffy-mats.png -->
+        <img src="img/fluffy-mats.png" alt="Fluffy Mat" loading="lazy"/>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Fluffy Mats</div>
+        <p class="product-desc">Ultra-plush shaggy mats that bring warmth and softness underfoot — perfect for bedrooms & living rooms.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: Upload a door mat photo as img/door-mats.png -->
+        <img src="img/door-mats.png" alt="Bathroom Door Mat" loading="lazy"/>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Door Mats</div>
+        <p class="product-desc">Non-slip bathroom & entrance door mats in memory foam and microfibre — quick-dry & machine washable.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★☆</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card reveal">
+      <div class="product-img">
+        <!-- IMAGE: Upload a pinch hooks photo as img/pinch-hooks.png -->
+        <img src="img/pinch-hooks.png" alt="Pinch Hooks" loading="lazy"/>
+      </div>
+      <div class="product-body">
+        <div class="product-name">Pinch Hooks</div>
+        <p class="product-desc">Clear & satin pinch pleat hooks for creating elegant triple-pleat curtain headings with ease.</p>
+        <div class="product-footer">
+          <a href="#contact" class="product-enquire">Enquire <i class="fas fa-arrow-right"></i></a>
+          <div class="product-stars">★★★★☆</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES / QUALITY -->
+<section id="features">
+  <div class="features-inner">
+    <div class="features-image reveal">
+      <!-- IMAGE: Upload a styled interior / quality showcase photo as img/quality-showcase.png
+           Recommended size: 700×933px portrait. This appears in the "Built for Comfort" section. -->
+      <img src="img/quality-showcase.png" alt="Quality home interior"/>
+      <div class="features-badge-float">
+        <span class="num">100%</span>
+        <span class="lbl">Quality Assured</span>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="section-label">Why Our Products</div>
+      <h2 class="section-title">Built for <em>Comfort,</em><br>Made to Last</h2>
+      <p class="section-sub">Every product in our range is carefully selected to meet the highest standards of quality, safety, and style.</p>
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-feather-alt"></i></div>
+          <div class="feature-text">
+            <h4>Fine Fabric</h4>
+            <p>We source only premium, tightly-woven fabrics that feel luxurious to the touch and stand the test of time.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+          <div class="feature-text">
+            <h4>Skin Friendly</h4>
+            <p>Our materials are hypoallergenic and gentle on skin — safe for the whole family, including children.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-tshirt"></i></div>
+          <div class="feature-text">
+            <h4>Easy Care</h4>
+            <p>Machine-washable and quick-drying — our products are designed to fit seamlessly into your lifestyle.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-palette"></i></div>
+          <div class="feature-text">
+            <h4>Beautiful Colors</h4>
+            <p>Rich, fade-resistant colours that stay vibrant wash after wash, perfectly complementing your home décor.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+          <div class="feature-text">
+            <h4>Durable & Long Lasting</h4>
+            <p>Reinforced stitching, quality hardware, and robust materials ensure years of everyday use.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="section-header centered reveal">
+    <div class="section-label">Our Promise</div>
+    <h2 class="section-title" style="color:#fff">Why Choose <em>Joedus?</em></h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.45)">We go beyond selling products — we help you create a home you love.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <i class="fas fa-award"></i>
+      <h3>Premium Quality</h3>
+      <p>Every item passes our strict quality checks before it reaches your home.</p>
+    </div>
+    <div class="why-card reveal">
+      <i class="fas fa-paint-brush"></i>
+      <h3>Stylish Designs</h3>
+      <p>Trend-forward patterns and timeless classics to match any interior style.</p>
+    </div>
+    <div class="why-card reveal">
+      <i class="fas fa-cloud"></i>
+      <h3>Ultimate Comfort</h3>
+      <p>Soft-touch materials and ergonomic designs for maximum everyday comfort.</p>
+    </div>
+    <div class="why-card reveal">
+      <i class="fas fa-home"></i>
+      <h3>Perfect For Every Home</h3>
+      <p>From studios to mansions — our range caters for every space and budget.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-header centered reveal">
+    <div class="section-label">Customer Reviews</div>
+    <h2 class="section-title">What Our <em>Clients Say</em></h2>
+    <p class="section-sub">Thousands of happy homeowners trust Joedus Trading Enterprise for their home décor needs.</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The curtains I ordered are absolutely gorgeous. The fabric quality is exceptional and they fit perfectly. My living room looks like something out of a magazine now!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">A</div>
+        <div>
+          <div class="testi-name">Abena Mensah</div>
+          <div class="testi-loc">Accra, Ghana</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"I bought the duvet set and bedsheets together — best decision ever! They feel incredibly soft and have held their colour even after multiple washes. Highly recommend."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">K</div>
+        <div>
+          <div class="testi-name">Kwame Osei</div>
+          <div class="testi-loc">Kumasi, Ghana</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The sofa cover transformed my old couch completely! It fits snugly and looks brand new. The customer service was also fantastic — very responsive and helpful."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">E</div>
+        <div>
+          <div class="testi-name">Efua Asante</div>
+          <div class="testi-loc">Takoradi, Ghana</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-label reveal">Get In Touch</div>
+      <h2 class="section-title reveal">Let's Transform<br><em>Your Home</em></h2>
+      <p class="section-sub reveal">Have a question or ready to order? Reach out to us — we'd love to help you find the perfect décor for your space.</p>
+
+      <div class="contact-info">
+        <div class="contact-item reveal">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <h4>Location</h4>
+            <p>Your address goes here<br>Ghana</p>
+            <a href="https://www.google.com/maps?q=6.692246,-1.620201" target="_blank" rel="noopener" class="map-directions-btn">
+              <i class="fas fa-map-marked-alt"></i> Get Directions
+            </a>
+          </div>
+        </div>
+        <div class="contact-item reveal">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div>
+            <h4>Phone / WhatsApp</h4>
+            <p>+233 24 786 3001</p>
+          </div>
+        </div>
+        <div class="contact-item reveal">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <h4>Email</h4>
+            <p>your@email.com</p>
+          </div>
+        </div>
+        <div class="contact-item reveal">
+          <div class="contact-icon"><i class="fas fa-clock"></i></div>
+          <div>
+            <h4>Working Hours</h4>
+            <p>Monday – Saturday: 8am – 5:30pm<br>Sunday: By appointment</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-socials" style="margin-top:28px">
+        <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/joedus_curtains_home" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/233247863001" target="_blank" rel="noopener" class="social-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-btn" aria-label="Twitter/X"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <h3>Send an Enquiry</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="e.g. Kwame" id="fname"/>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="e.g. Asante" id="lname"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@example.com" id="email"/>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+233 XXX XXX XXX" id="phone"/>
+      </div>
+      <div class="form-group">
+        <label>Product of Interest</label>
+        <select id="product">
+          <option value="">— Select a product —</option>
+          <option>Curtains</option>
+          <option>Blinds</option>
+          <option>Adjustable Curtain Bars</option>
+          <option>Tiebacks & Tiehooks</option>
+          <option>Curtain Hooks</option>
+          <option>Pinch Hooks</option>
+          <option>Sofa Covers</option>
+          <option>Bedsheets (Fitted & Flat)</option>
+          <option>Duvet Sets</option>
+          <option>Fluffy Mats</option>
+          <option>Bathroom Door Mats</option>
+          <option>Multiple Products</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="message" placeholder="Tell us about your needs, room size, preferred colours…"></textarea>
+      </div>
+      <button class="form-submit" id="submitBtn">
+        <i class="fas fa-paper-plane"></i> Send Enquiry
+      </button>
+      <div class="form-success" id="formSuccess">
+        <i class="fas fa-check-circle" style="color:var(--gold);font-size:40px;display:block;margin-bottom:12px"></i>
+        Thank you! We'll be in touch soon.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP EMBED -->
+<div class="map-section">
+  <iframe
+    src="https://www.google.com/maps?q=6.692246,-1.620201&z=16&output=embed"
+    allowfullscreen loading="lazy"
+    title="Joedus Trading Enterprise location">
+  </iframe>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <!-- LOGO: img/logo.png ✓ already uploaded -->
+      <img src="img/logo.png" class="footer-logo-img" alt="Joedus Trading Enterprise"/>
+      <p>Premium quality home décor for every corner of your home. Beautiful Home. Better Life.</p>
+      <div class="contact-socials" style="margin-top:24px">
+        <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/joedus_curtains_home" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://wa.me/233247863001" target="_blank" rel="noopener" class="social-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="#products">Curtains</a></li>
+        <li><a href="#products">Blinds</a></li>
+        <li><a href="#products">Sofa Covers</a></li>
+        <li><a href="#products">Bedsheets</a></li>
+        <li><a href="#products">Duvet Sets</a></li>
+        <li><a href="#products">Mats & Rugs</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#home">About Us</a></li>
+        <li><a href="#features">Quality Promise</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+233247863001">+233 24 786 3001</a></li>
+        <li><a href="mailto:your@email.com">your@email.com</a></li>
+        <li><a href="#">Your Location, Ghana</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Joedus Trading Enterprise. All rights reserved.</span>
+    <span class="footer-bottom-tagline">✦ Beautiful Home. Better Life. ✦</span>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lbClose" aria-label="Close">&times;</button>
+    <img id="lbImg" src="" alt=""/>
+    <div class="lightbox-caption" id="lbCaption"></div>
+  </div>
+</div>
+
+<!-- FLOATING BUTTONS -->
+<a href="https://wa.me/233247863001" class="float-wa" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+<button class="back-top" id="backTop" aria-label="Back to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+  // NAV scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+    document.getElementById('backTop').classList.toggle('show', window.scrollY > 400);
+  });
+
+  // Back to top
+  document.getElementById('backTop').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  document.querySelectorAll('.mob-link').forEach(l => {
+    l.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lbImg');
+  const lbCaption = document.getElementById('lbCaption');
+
+  document.querySelectorAll('.product-img img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbCaption.textContent = img.closest('.product-card').querySelector('.product-name').textContent;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Form submit (demo)
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    const fname = document.getElementById('fname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!fname || !email) {
+      alert('Please fill in at least your name and email address.');
+      return;
+    }
+    document.getElementById('submitBtn').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+</script>
+</body>
+</html>
