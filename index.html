@@ -519,19 +519,26 @@
     display: none; position: fixed; inset: 0; z-index: 9999;
     background: rgba(20,10,5,0.92);
     align-items: center; justify-content: center;
-    cursor: zoom-out;
+    gap: 20px; padding: 20px;
   }
   .lightbox.open { display: flex; }
-  .lightbox-inner {
-    position: relative; max-width: 92vw; max-height: 90vh;
+  .lightbox-nav {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; font-size: 32px; width: 50px; height: 50px; flex-shrink: 0;
+    border-radius: 50%; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
+    transition: background .2s; user-select: none;
+  }
+  .lightbox-nav:hover { background: rgba(255,255,255,0.25); }
+  .lightbox-nav.lb-hidden { visibility: hidden; pointer-events: none; }
+  .lightbox-inner {
+    position: relative; display: flex; flex-direction: column; align-items: center;
   }
   .lightbox-inner img {
-    max-width: 90vw; max-height: 86vh;
+    max-width: 82vw; max-height: 80vh;
     object-fit: contain; border-radius: 10px;
     box-shadow: 0 24px 80px rgba(0,0,0,0.7);
-    cursor: default;
-    animation: lbFade .22s ease;
+    cursor: default; transition: opacity .18s ease;
   }
   .lightbox-close {
     position: absolute; top: -44px; right: -4px;
@@ -540,10 +547,16 @@
     opacity: .75; transition: opacity .2s; padding: 0;
   }
   .lightbox-close:hover { opacity: 1; }
+  .lightbox-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; margin-top: 12px; gap: 16px;
+  }
   .lightbox-caption {
-    position: absolute; bottom: -36px; left: 0; right: 0;
-    text-align: center; color: rgba(255,255,255,.55);
-    font-size: 13px; letter-spacing: 1px;
+    color: rgba(255,255,255,.6); font-size: 13px; letter-spacing: 1px;
+    font-family: 'Cormorant Garamond', serif; font-size: 16px;
+  }
+  .lightbox-counter {
+    color: rgba(255,255,255,.4); font-size: 12px; letter-spacing: 1.5px; white-space: nowrap;
   }
   @keyframes lbFade {
     from { opacity: 0; transform: scale(0.93); }
@@ -671,9 +684,8 @@
   <div class="products-grid">
 
     <div class="product-card reveal">
-      <div class="product-img">
-        <!-- IMAGE: img/curtains.png ✓ already uploaded -->
-        <img src="img/curtains.png" alt="Curtains" loading="lazy"/>
+      <div class="product-img" data-gallery="img/curtain01.jpeg|img/curtain02.jpeg|img/curtain03.jpeg|img/curtain04.jpeg|img/curtain05.jpeg|img/curtain06.jpeg">
+        <img src="img/curtain01.jpeg" alt="Curtains" loading="lazy"/>
         <span class="product-tag">Bestseller</span>
       </div>
       <div class="product-body">
@@ -702,9 +714,8 @@
     </div>
 
     <div class="product-card reveal">
-      <div class="product-img">
-        <!-- IMAGE: Upload a curtain rod / rail photo as img/curtain-bars.jpg -->
-        <img src="img/curtain-bars.png" alt="Adjustable Curtain Bars" loading="lazy"/>
+      <div class="product-img" data-gallery="img/curtian-bar01.png|img/curtain-bar02.png|img/curtain-bar03.png|img/curtain-bar04.png|img/curtain-bar05.png|img/curtain-bar06.png">
+        <img src="img/curtain-bar06.png" alt="Adjustable Curtain Bars" loading="lazy"/>
       </div>
       <div class="product-body">
         <div class="product-name">Curtain Bars</div>
@@ -717,9 +728,8 @@
     </div>
 
     <div class="product-card reveal">
-      <div class="product-img">
-        <!-- IMAGE: Upload a tieback / tassel photo as img/tiebacks.jpg -->
-        <img src="img/tiebacks.png" alt="Tiebacks and Tiehooks" loading="lazy"/>
+      <div class="product-img" data-gallery="img/tiehook%26%20tieback01.jpeg|img/tiehook%26%20tieback02.jpeg">
+        <img src="img/tiehook%26%20tieback01.jpeg" alt="Tiebacks and Tiehooks" loading="lazy"/>
       </div>
       <div class="product-body">
         <div class="product-name">Tiebacks & Tiehooks</div>
@@ -1137,11 +1147,16 @@
 
 <!-- LIGHTBOX -->
 <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox-nav lb-hidden" id="lbPrev" aria-label="Previous">&#8249;</button>
   <div class="lightbox-inner">
     <button class="lightbox-close" id="lbClose" aria-label="Close">&times;</button>
     <img id="lbImg" src="" alt=""/>
-    <div class="lightbox-caption" id="lbCaption"></div>
+    <div class="lightbox-footer">
+      <span class="lightbox-caption" id="lbCaption"></span>
+      <span class="lightbox-counter" id="lbCounter"></span>
+    </div>
   </div>
+  <button class="lightbox-nav lb-hidden" id="lbNext" aria-label="Next">&#8250;</button>
 </div>
 
 <!-- FLOATING BUTTONS -->
@@ -1186,29 +1201,70 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // Lightbox
-  const lightbox = document.getElementById('lightbox');
-  const lbImg    = document.getElementById('lbImg');
+  // Lightbox with gallery support
+  const lightbox  = document.getElementById('lightbox');
+  const lbImg     = document.getElementById('lbImg');
   const lbCaption = document.getElementById('lbCaption');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbPrev    = document.getElementById('lbPrev');
+  const lbNext    = document.getElementById('lbNext');
+  let gallery = [], galleryIdx = 0;
+
+  function showSlide(idx) {
+    galleryIdx = idx;
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+      lbImg.src = gallery[galleryIdx];
+      lbImg.style.opacity = '1';
+    }, 150);
+    if (gallery.length > 1) {
+      lbCounter.textContent = (galleryIdx + 1) + ' / ' + gallery.length;
+      lbPrev.classList.toggle('lb-hidden', galleryIdx === 0);
+      lbNext.classList.toggle('lb-hidden', galleryIdx === gallery.length - 1);
+    } else {
+      lbCounter.textContent = '';
+      lbPrev.classList.add('lb-hidden');
+      lbNext.classList.add('lb-hidden');
+    }
+  }
+
+  function openLightbox(images, startIdx, caption) {
+    gallery = images;
+    lbCaption.textContent = caption;
+    showSlide(startIdx);
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
 
   document.querySelectorAll('.product-img img').forEach(img => {
     img.style.cursor = 'zoom-in';
     img.addEventListener('click', () => {
-      lbImg.src = img.src;
-      lbImg.alt = img.alt;
-      lbCaption.textContent = img.closest('.product-card').querySelector('.product-name').textContent;
-      lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden';
+      const container = img.closest('.product-img');
+      const raw = container.dataset.gallery;
+      const images = raw ? raw.split('|') : [img.getAttribute('src')];
+      const cardSrc = img.getAttribute('src');
+      const startIdx = Math.max(images.indexOf(cardSrc), 0);
+      const caption = img.closest('.product-card').querySelector('.product-name').textContent;
+      openLightbox(images, startIdx, caption);
     });
   });
+
+  lbPrev.addEventListener('click', e => { e.stopPropagation(); if (galleryIdx > 0) showSlide(galleryIdx - 1); });
+  lbNext.addEventListener('click', e => { e.stopPropagation(); if (galleryIdx < gallery.length - 1) showSlide(galleryIdx + 1); });
 
   function closeLightbox() {
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
+    gallery = [];
   }
   document.getElementById('lbClose').addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft'  && galleryIdx > 0) showSlide(galleryIdx - 1);
+    if (e.key === 'ArrowRight' && galleryIdx < gallery.length - 1) showSlide(galleryIdx + 1);
+  });
 
   // Form submit (demo)
   document.getElementById('submitBtn').addEventListener('click', () => {
